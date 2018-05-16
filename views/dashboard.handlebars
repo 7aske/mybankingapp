@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row main">
+        <div class="panel-heading col-12">
+            <div class="panel-title text-center">
+                <ul class="list-group">
+                    <div class="list-group-item">
+                        <label for="created">Date created:</label>
+                        <li style="list-style-type: none" id="created">{{user.dateCreated}}</li>
+                    </div>
+                    <div class="list-group-item">
+                        <label for="login">Last login:</label>
+                        <li style="list-style-type: none" id="login">{{user.lastLogin}}</li>
+                    </div>
+                    <li class="list-group-item">First name: {{user.firstName}}</li>
+                    <li class="list-group-item">Last Name: {{user.lastName}}</li>
+                    <li class="list-group-item">Company: {{user.company}}</li>
+                    <li class="list-group-item">Address: {{user.address}}</li>
+                    <li class="list-group-item">City: {{user.city}}</li>
+                    <li class="list-group-item">Country: {{user.country}}</li>
+                    <div class="list-group-item">
+                        <label for="birth">Birth date:</label>
+                        <li style="list-style-type: none" id="birth">{{user.birthDate}}</li>
+                    </div>
+                    <li class="list-group-item">Phone number: {{user.phone}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let created = document.getElementById('created');
+    let birth = document.getElementById('birth');
+    let login = document.getElementById('login');
+
+    let formatDate = (field) => {
+        let date = new Date(field.innerText);
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+
+        field.innerText = day + '/' + month + '/' + year;
+    }
+    let formatDatePrecise = (field) => {
+        let date = new Date(field.innerText);
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+
+        field.innerText = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+    formatDate(created);
+    formatDate(birth);
+    formatDatePrecise(login);
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
+</script>
