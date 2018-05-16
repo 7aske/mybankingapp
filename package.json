@@ -7,7 +7,12 @@
 		"start": "node app.js",
 		"dev": "nodemon app.js"
 	},
-	"keywords": ["Bank", "App", "Database", "Banking"],
+	"keywords": [
+		"Bank",
+		"App",
+		"Database",
+		"Banking"
+	],
 	"author": "Nikola Tasic",
 	"license": "ISC",
 	"dependencies": {
@@ -24,7 +29,8 @@
 		"mongoose": "^5.1.1",
 		"passport": "^0.4.0",
 		"passport-http": "^0.3.0",
-		"passport-local": "^1.0.0"
+		"passport-local": "^1.0.0",
+		"request": "^2.86.0"
 	},
 	"devDependencies": {
 		"nodemon": "^1.17.4"
