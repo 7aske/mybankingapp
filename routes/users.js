@@ -27,7 +27,8 @@ router.get('/dashboard', (req, res) => {
 			})
 			.catch(err => console.log(err));
 	} else {
-		res.sendStatus(401);
+		req.flash('error_msg', 'Unauthorized');
+		res.redirect('/');
 	}
 });
 
