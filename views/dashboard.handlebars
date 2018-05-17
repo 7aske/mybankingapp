@@ -1,31 +1,55 @@
-<div class="container">
-    <div class="row main">
-        <div class="panel-heading col-12">
-            <div class="panel-title text-center">
-                <ul class="list-group">
-                    <div class="list-group-item">
-                        <label for="created">Date created:</label>
-                        <li style="list-style-type: none" id="created">{{user.dateCreated}}</li>
-                    </div>
-                    <div class="list-group-item">
-                        <label for="login">Last login:</label>
-                        <li style="list-style-type: none" id="login">{{user.lastLogin}}</li>
-                    </div>
-                    <li class="list-group-item">First name: {{user.firstName}}</li>
-                    <li class="list-group-item">Last Name: {{user.lastName}}</li>
-                    <li class="list-group-item">Company: {{user.company}}</li>
-                    <li class="list-group-item">Address: {{user.address}}</li>
-                    <li class="list-group-item">City: {{user.city}}</li>
-                    <li class="list-group-item">Country: {{user.country}}</li>
-                    <div class="list-group-item">
-                        <label for="birth">Birth date:</label>
-                        <li style="list-style-type: none" id="birth">{{user.birthDate}}</li>
-                    </div>
-                    <li class="list-group-item">Phone number: {{user.phone}}</li>
-                </ul>
+<div class="container text-center">
+    {{#if user}}
+    <div class="row">
+        {{#if accounts}} {{#each accounts}}
+        <div class="col-12">
+            <div class="card card-header bg-info text-light" data-toggle="collapse" data-target="#{{this._id}}" aria-expanded="false"
+                aria-controls="{{this._id}}">
+                Account ID: {{this._id}}
+            </div>
+            <div class="collapse p-0" id="{{this._id}}">
+                <div class="card card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Account number: {{this.accountNumber}}</li>
+                        <li class="list-group-item">Balance: {{this.balance}}</li>
+                        <li class="list-group-item">Payments: {{this.payments}}</li>
+                        <li class="list-group-item">Deposits: {{this.deposits}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
+        {{/each}} {{/if}}
     </div>
+    <div class="row">
+        <div class="container">
+            <ul class="list-group">
+                <div class="card card-header bg-info text-light">
+                    User information
+                </div>
+                <div class="list-group-item">
+                    <label for="created">Date created:</label>
+                    <li style="list-style-type: none" id="created">{{user.dateCreated}}</li>
+                </div>
+                <div class="list-group-item">
+                    <label for="login">Last login:</label>
+                    <li style="list-style-type: none" id="login">{{user.lastLogin}}</li>
+                </div>
+                <li class="list-group-item">First name: {{user.firstName}}</li>
+                <li class="list-group-item">Last Name: {{user.lastName}}</li>
+                <li class="list-group-item">Company: {{user.company}}</li>
+                <li class="list-group-item">Address: {{user.address}}</li>
+                <li class="list-group-item">City: {{user.city}}</li>
+                <li class="list-group-item">Country: {{user.country}}</li>
+                <div class="list-group-item">
+                    <label for="birth">Birth date:</label>
+                    <li style="list-style-type: none" id="birth">{{user.birthDate}}</li>
+                </div>
+                <li class="list-group-item">Phone number: {{user.phone}}</li>
+
+            </ul>
+        </div>
+    </div>
+    {{/if}}
 </div>
 <script type="text/javascript">
     let created = document.getElementById('created');

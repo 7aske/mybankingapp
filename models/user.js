@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema(
 		country: { type: String, required: true },
 		phone: { type: String, required: true },
 		lastLogin: { type: Date, default: new Date() },
-		dateCreated: { type: Date, default: new Date() }
+		dateCreated: { type: Date, default: new Date() },
+		accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Account' }]
 	},
 	{ collection: 'users' }
 );

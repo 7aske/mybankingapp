@@ -13,6 +13,10 @@ html {
   font-family: 'Oxygen', sans-serif;
 }
 
+#messages {
+  margin-top: -1px;
+}
+
 .alert {
   margin-bottom: 5px;
   padding: 5px;
@@ -71,5 +75,28 @@ input::-webkit-input-placeholder {
 .login-register {
   font-size: 11px;
   text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .cover {
+    margin-top: 30%;
+  }
+  .lead:first-of-type {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .cover-heading {
+    margin-top: 5%;
+    font-size: 26px;
+  }
+  .cover {
+    width: 100%;
+  }
+  .lead {
+    margin: 10px auto;
+    width: 90%;
+  }
 }
 /*# sourceMappingURL=style.css.map */

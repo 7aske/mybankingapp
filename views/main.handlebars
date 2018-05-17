@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="bg-dark" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -10,30 +10,36 @@
     <title>{{title}}</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">MyBankApp</a>
-            <ul class="navbar-nav mr-auto">
-                {{#if user}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/logout">Logout</a>
-                </li>
-                {{else}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/register">Register</a>
-                </li>
-                {{/if}}
-            </ul>
+            <a class="navbar-brand text-light" href="/">MyBankApp</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav1">
+                <ul class="navbar-nav">
+                    {{#if user}}
+                    <li class="nav-item">
+                        <a class="nav-link p-3" href="/users/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-3" href="/users/logout">Logout</a>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link p-3" href="/users/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-3" href="/users/register">Register</a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
         </div>
     </nav>
-    <div class="container col-12">
+    <div id="messages" class="container col-12">
         {{#if success_msg}}
         <div class="alert alert-success text-center">{{success_msg}}</div>
         {{/if}} {{#if error_msg}}

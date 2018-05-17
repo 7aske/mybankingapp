@@ -17,6 +17,7 @@ const HTTPStrategy = require('passport-http').Strategy;
 const api = require('./routes/api');
 const router = require('./routes/router');
 const users = require('./routes/users');
+const accounts = require('./routes/accounts');
 
 const app = express();
 
@@ -99,6 +100,7 @@ app.use((req, res, next) => {
 app.use('/', router);
 app.use('/api', api);
 app.use('/users', users);
+app.use('/accounts', accounts);
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);

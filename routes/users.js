@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const Accounts = require('../models/account');
 const Users = require('../models/user');
 const mongoose = require('mongoose');
 
@@ -14,7 +15,20 @@ router.get('/register', (req, res) => {
 	res.render('register', { title: 'Register' });
 });
 router.get('/dashboard', (req, res) => {
-	res.render('dashboard', { title: 'Dashboard' });
+	if (res.locals.user != null) {
+		Accounts.find({ owner: res.locals.user._id })
+			.exec()
+			.then(result => {
+				console.log(result);
+				res.render('dashboard', {
+					title: 'Dashboard',
+					accounts: result
+				});
+			})
+			.catch(err => console.log(err));
+	} else {
+		res.sendStatus(401);
+	}
 });
 
 //register user
@@ -72,13 +86,18 @@ router.post('/register', (req, res) => {
 						country: country,
 						birthDate: birthDate,
 						phone: phone,
-						lastLogin: lastLogin
+						lastLogin: lastLogin,
+						transactions: [],
+						accounts: []
 					});
 					Users.createUser(newUser, (err, user) => {
 						if (err) throw err;
 						if (user) console.log(user);
 					});
-					req.flash('success_msg', 'Registration successful. You can log in.');
+					req.flash(
+						'success_msg',
+						'Registration successful. You can now log in.'
+					);
 					res.redirect('login');
 				} else {
 					req.flash('error_msg', 'User already exists.');
