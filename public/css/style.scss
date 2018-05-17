@@ -15,13 +15,19 @@ html {
 }
 
 #messages {
+	position: relative;
 	margin-top: -1px;
 }
 .alert {
 	margin-bottom: 5px;
 	padding: 5px;
 }
-
+nav {
+	position: relative;
+}
+#video {
+	position: absolute;
+}
 .main {
 	margin-top: 20px;
 }

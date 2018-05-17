@@ -7,13 +7,14 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <title>{{title}}</title>
 </head>
 
 <body class="bg-dark">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand text-light" href="/">MyBankApp</a>
+            <a class="navbar-brand text-light font-weight-bold" href="/">MyBankApp</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,6 +40,10 @@
             </div>
         </div>
     </nav>
+    {{!--
+    <div id="video" class="container-fluid w-100">
+        <video width="500" src="https://player.vimeo.com/external/174003112.hd.mp4?s=9c380d7ef6367969ca048d065a53adc1e105c9d9&profile_id=119&oauth2_token_id=57447761&download=1"></video>
+    </div> --}}
     <div id="messages" class="container col-12">
         {{#if success_msg}}
         <div class="alert alert-success text-center">{{success_msg}}</div>
@@ -48,7 +53,9 @@
         <div class="alert alert-danger text-center">{{error}}</div>
         {{/if}}
     </div>
+
     {{{body}}}
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
