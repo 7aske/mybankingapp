@@ -16,10 +16,10 @@ router.get('/register', (req, res) => {
 });
 router.get('/dashboard', (req, res) => {
 	if (res.locals.user != null) {
+		console.log(res.locals.user.accounts);
 		Accounts.find({ owner: res.locals.user._id })
 			.exec()
 			.then(result => {
-				console.log(result);
 				res.render('dashboard', {
 					title: 'Dashboard',
 					accounts: result
@@ -63,7 +63,9 @@ router.post('/register', (req, res) => {
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
 	req.checkBody('confirm', 'Confirm your password').notEmpty();
-	req.checkBody('confirm', 'Passwords do not match').equals(req.body.password);
+	req
+		.checkBody('confirm', 'Passwords do not match')
+		.equals(req.body.password);
 
 	let errors = req.validationErrors();
 	if (errors) {
@@ -88,7 +90,6 @@ router.post('/register', (req, res) => {
 						birthDate: birthDate,
 						phone: phone,
 						lastLogin: lastLogin,
-						transactions: [],
 						accounts: []
 					});
 					Users.createUser(newUser, (err, user) => {
@@ -125,9 +126,13 @@ passport.use(
 							.exec()
 							.then(result => console.log(result))
 							.catch(err => console.log(err));
-						return done(null, result, { message: 'Successfully logged in.' });
+						return done(null, result, {
+							message: 'Successfully logged in.'
+						});
 					} else {
-						return done(null, false, { message: 'Invalid password.' });
+						return done(null, false, {
+							message: 'Invalid password.'
+						});
 					}
 				}
 			})

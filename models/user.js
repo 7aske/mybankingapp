@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
 	{
-		username: { type: String, required: true },
+		username: { type: String, required: true, lowercase: true },
 		password: { type: String, required: true },
 		firstName: { type: String, required: true },
 		lastName: { type: String, required: true },
@@ -42,4 +42,11 @@ module.exports.comparePassword = (loginPassword, databasePassword) => {
 		.update(loginPassword)
 		.digest('hex');
 	return hash == databasePassword;
+};
+module.exports.compareId = (id1, id2) => {
+	if (typeof id1 == 'object' && typeof id1 == 'object') {
+		return id1.toString() == id2.toString();
+	} else {
+		return false;
+	}
 };

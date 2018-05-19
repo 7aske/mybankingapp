@@ -5,13 +5,16 @@
                 <h1 class="title text-light">My Bank</h1>
             </div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-4 main-login main-center animated slideInRight">
+        <div class="col-sm-12 col-md-12 col-lg-4 card main-login main-center animated slideInUp">
             {{#if errors}} {{#each errors}}
             <div class="alert alert-danger">{{this.msg}}</div> {{/each}} {{/if}}
 
             <form class="form-horizontal" method="post" action="#">
 
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="name" class="cols-sm-2 control-label">First Name</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -20,6 +23,9 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="name" class="cols-sm-2 control-label">Last Name</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -28,6 +34,9 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-users fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="username" class="cols-sm-2 control-label">Company</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -36,6 +45,9 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="email" class="cols-sm-2 control-label">Your Email</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -45,6 +57,9 @@
                 </div>
 
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="username" class="cols-sm-2 control-label">Username</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -54,6 +69,9 @@
                 </div>
 
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-address-card fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="name" class="cols-sm-2 control-label">Address</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -65,6 +83,9 @@
                 </div>
 
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="name" class="cols-sm-2 control-label">Date of birth</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -73,6 +94,9 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-phone fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="username" class="cols-sm-2 control-label">Phone</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -81,6 +105,9 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="password" class="cols-sm-2 control-label">Password</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -90,6 +117,9 @@
                 </div>
 
                 <div class="form-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+                    </span>
                     <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -102,7 +132,8 @@
                     <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                 </div>
                 <div class="login-register">
-                    <a href="/users/login">Login</a>
+                    <a href="/users/login">
+                        <i class="fa fa-chevron-circle-right"></i> Login</a>
                 </div>
             </form>
         </div>

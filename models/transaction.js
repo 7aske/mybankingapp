@@ -2,13 +2,16 @@ const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
 	_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-	account: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Account',
+	toAccount: {
+		type: Number,
 		required: true
 	},
-	value: { type: Number, required: true },
-	dateCreated: { type: Date, default: new Date() }
+	fromAccount: {
+		type: Number,
+		required: true
+	},
+	value: { type: Number, required: true, min: 1 },
+	date: { type: Date, default: new Date() }
 });
 
-module.exports = mongoose.model(transactionSchema, 'Transaction');
+module.exports = mongoose.model('Transaction', transactionSchema);

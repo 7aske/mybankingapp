@@ -1,7 +1,7 @@
 <div class="container text-center">
     {{#if user}}
     <div class="modal fade" id="addLinkAccount" tabindex="-1" role="dialog" aria-labelledby="addLinkAccount" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle">Add/Link account</h5>
@@ -12,33 +12,33 @@
                 <div class="modal-body">
                     <form method="post" action="/accounts">
                         <div class="form-group row">
-                            <label for="username" class="col-sm-2 col-form-label">User id</label>
+                            <label for="addId" class="col-sm-2 col-form-label">User id</label>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext text-center noselect" name="id" id="id" value="{{user._id}}">
+                                <input type="text" readonly class="form-control-plaintext text-center noselect" name="id" id="addId" value="{{user._id}}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="accountNumber" class="col-sm-2 col-form-label">Account</label>
+                            <label for="addAccountNumber" class="col-sm-2 col-form-label">Account</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" style="-webkit-appearance: none;-moz-appearance:textfield;" id="accountNumber"
+                                <input required type="number" class="form-control" style="-webkit-appearance: none;-moz-appearance:textfield;" id="addAccountNumber"
                                     name="accountNumber" placeholder="Account number">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="balance" class="col-sm-2 col-form-label">Balance</label>
+                            <label for="addBalance" class="col-sm-2 col-form-label">Balance</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" style="-webkit-appearance: none;-moz-appearance:textfield;" id="balance" name="balance"
-                                    placeholder="Balance">
+                                <input required type="number" class="form-control" style="-webkit-appearance: none;-moz-appearance:textfield;" id="addBalance"
+                                    name="balance" placeholder="Balance">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password" class="col-sm-2 col-form-label">Password</label>
+                            <label for="addPassword" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                <input required type="password" class="form-control" name="password" id="addPassword" placeholder="Password">
                             </div>
-                            <label for="confirm" class="col-sm-2 col-form-label">Confirm</label>
+                            <label for="addConfirm" class="col-sm-2 col-form-label">Confirm</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm password">
+                                <input required type="password" class="form-control" name="confirm" id="addConfirm" placeholder="Confirm password">
                             </div>
                         </div>
                         <div class="modal-footer form-group row">
@@ -51,21 +51,123 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <button class="btn btn-info m-3" data-toggle="modal" data-target="#addLinkAccount">Add/Link account</button>
         {{#if accounts}} {{#each accounts}}
+        <div class="modal fade" id="sendFunds{{this._id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Send funds</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/accounts/send">
+                            <div class="form-group row">
+                                <label for="sendId" class="col-sm-2 col-form-label">
+                                    <i class="fa fa-bank"></i>Account number:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext text-center noselect" name="fromAccount" id="sendId" value="{{this.accountNumber}}">
+                                </div>
+                            </div>
+                            <div class="form-group eow">
+                                <label for="sendToAccount">
+                                    <i class="fa fa-bank"></i>Recipient account number:</label>
+                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendToAccount"
+                                    placeholder="Account number" name="toAccount">
+                            </div>
+                            <div class="form-group eow">
+                                <label for="sendValue">
+                                    <i class="fa fa-money"></i> Amount:</label>
+                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendValue"
+                                    placeholder="Value" name="value">
+                            </div>
+                            <div class="form-group eow">
+                                <label for="sendPassword">
+                                    <i class="fa fa-lock"></i>Password:</label>
+                                <input required type="password" class="form-control" id="sendPassword" placeholder="Password" name="password">
+                            </div>
+                            <div class="form-group eow">
+                                <label for="sendConfirm">
+                                    <i class="fa fa-lock"></i>Confirm password:</label>
+                                <input required type="password" class="form-control" id="sendConfirm" placeholder="Password" name="cofirm">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="transactions" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Transactions</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row d-flex">
+                            <li class="list-group-item col-3">From:</li>
+                            <li class="list-group-item col-3">To:</li>
+                            <li class="list-group-item col-3">Value:</li>
+                            <li class="list-group-item col-3">Date:</li>
+                        </div>
+                        <div class="row d-flex">
+                            {{#each this.transactions}}
+                            <li class="list-group-item col-3 p-1">{{this.fromAccount}}</li>
+
+                            <li class="list-group-item col-3 p-1">{{this.toAccount}}</li>
+
+                            <li class="list-group-item col-3 p-1">{{this.value}}</li>
+
+                            <li class="list-group-item col-3 p-1 toFormatPrecise">{{this.date}}</li>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-12">
             <div class="card card-header bg-info text-light noselect" data-toggle="collapse" data-target="#{{this._id}}" aria-expanded="false"
                 aria-controls="{{this._id}}">
-                Account ID: {{this._id}}
+                Account {{@index}}
             </div>
             <div class="collapse p-0" id="{{this._id}}">
                 <div class="card card-body">
                     <ul class="list-group">
                         <li class="list-group-item">Account number: {{this.accountNumber}}</li>
                         <li class="list-group-item">Balance: {{this.balance}}</li>
-                        <li class="list-group-item">Payments: {{this.payments}}</li>
-                        <li class="list-group-item">Deposits: {{this.deposits}}</li>
+                        <li class="list-group-item" data-toggle="modal" data-target="#transactions">
+                            <button data-toggle="modal" data-target="#transactions" class="btn btn-info">
+                                View transactions
+                                <i class="fa fa-list"></i>
+                            </button>
+                        </li>
+                        <li class="list-group-item">
+                            <button data-toggle="modal" data-target="#sendFunds{{this._id}}" class="btn btn-success">
+                                Send funds
+                                <i class="fa fa-send"></i>
+                            </button>
+                        </li>
+                        <li class="list-group-item">
+                            <button data-btn-type="request" data-method="delete" class="btn btn-danger">
+                                Remove/Unlink account
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -80,11 +182,11 @@
                 </div>
                 <div class="list-group-item">
                     <label for="created">Date created:</label>
-                    <li style="list-style-type: none" id="created">{{user.dateCreated}}</li>
+                    <li style="list-style-type: none" id="created" class="toFormat">{{user.dateCreated}}</li>
                 </div>
                 <div class="list-group-item">
                     <label for="login">Last login:</label>
-                    <li style="list-style-type: none" id="login">{{user.lastLogin}}</li>
+                    <li style="list-style-type: none" id="login" class="toFormatPrecise">{{user.lastLogin}}</li>
                 </div>
                 <li class="list-group-item">First name: {{user.firstName}}</li>
                 <li class="list-group-item">Last Name: {{user.lastName}}</li>
@@ -94,7 +196,7 @@
                 <li class="list-group-item">Country: {{user.country}}</li>
                 <div class="list-group-item">
                     <label for="birth">Birth date:</label>
-                    <li style="list-style-type: none" id="birth">{{user.birthDate}}</li>
+                    <li style="list-style-type: none" id="birth" class="toFormat">{{user.birthDate}}</li>
                 </div>
                 <li class="list-group-item">Phone number: {{user.phone}}</li>
 
@@ -127,8 +229,47 @@
 
         field.innerText = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
     }
-    formatDate(created);
-    formatDate(birth);
-    formatDatePrecise(login);
+    document.querySelectorAll('.toFormat').forEach(field => {
+        formatDate(field);
+    })
+    document.querySelectorAll('.toFormatPrecise').forEach(field => {
+        formatDatePrecise(field);
+    })
     document.querySelectorAll('.nav-item')[0].classList.add('active');
+</script>
+<script>
+    class Request {
+        constructor(method, url) {
+            this.method = method;
+            this.url = url;
+        }
+        send() {
+            if (confirm('Are you sure?')) {
+                let xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        location.reload();
+                    }
+                    if (this.readyState == 4 && this.status == 201) {
+                        location.reload();
+                    }
+
+                };
+                xhr.open(this.method, this.url, true);
+                xhr.send(null);
+            }
+        }
+    }
+    let btns = document.querySelectorAll('[data-btn-type="request"]');
+    btns.forEach(btn => {
+        btn.addEventListener('click', e => {
+            let method = e.target.attributes['data-method'].value;
+            let id = e.target.parentElement.parentElement.parentElement.parentElement.id;
+            if (method == 'delete') {
+                let url = new URL(window.location).origin + '/accounts/' + id;
+                let request = new Request(method, url);
+                request.send();
+            }
+        })
+    })
 </script>

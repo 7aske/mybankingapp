@@ -1,5 +1,9 @@
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column bg-dark">
-    <main role="main" class="inner cover text-center">
+<div id="video-wrapper" class="position-absolute">
+    <video class="position-relative" autoplay loop muted poster preload src="./public/video/mainVideo.mp4"></video>
+</div>
+
+<div id="main" class="d-flex w-100 p-3 mx-auto flex-column position-absolute bgdark">
+    <main class="cover text-center">
         <h1 class="cover-heading text-light">Welcome to my awesome Online Banking App</h1>
         <p class="lead text-light mt-5 mx-auto">Join hundreds of users online and experience brilliantly designed and easy to use application. Only tool you will
             ever need to satisfy your banking needs.</p>
@@ -8,3 +12,13 @@
         </p>
     </main>
 </div>
+
+<script>
+    let main = document.querySelector('#main');
+    let video = document.querySelector('video');
+    let videoWrapper = document.querySelector('#video-wrapper');
+    video.setAttribute('width', window.innerWidth);
+    videoWrapper.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
+    main.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
+
+</script>
