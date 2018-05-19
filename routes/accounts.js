@@ -22,7 +22,9 @@ router.post('/', (req, res) => {
 	req.checkBody('balance', 'Invalid balance').isNumeric();
 	req.checkBody('password', 'Password is empty').notEmpty();
 	req.checkBody('confirm', 'Confirm password is empty').notEmpty();
-	req.checkBody('password', 'Passwords do not match').equals('confirm');
+	req
+		.checkBody('password', 'Passwords do not match')
+		.equals(req.body.confirm);
 	let errors = req.validationErrors();
 	if (errors) {
 		req.flash('error_msg', 'Invalid password');
@@ -120,14 +122,17 @@ router.post('/send', (req, res) => {
 	let fromAccountId = req.body.fromAccount;
 	let password = req.body.password;
 	let confirm = req.body.confirm;
-
+	console.log(req.body);
 	req.checkBody('toAccount', 'Invalid account number').isNumeric();
 	req.checkBody('fromAccount', 'Invalid account number').isNumeric();
 	req.checkBody('value', 'Invalid value').isNumeric();
 	req.checkBody('password', 'Password is empty').notEmpty();
 	req.checkBody('confirm', 'Confirm password is empty').notEmpty();
-	req.checkBody('password', 'Passwords do not match').equals('confirm');
+	req
+		.checkBody('password', 'Passwords do not match')
+		.equals(req.body.confirm);
 	let errors = req.validationErrors();
+	console.log(errors);
 	if (errors) {
 		req.flash('error_msg', 'Invalid password');
 		res.redirect('/users/dashboard');

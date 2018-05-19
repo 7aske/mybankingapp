@@ -78,6 +78,16 @@ input::-webkit-input-placeholder {
   user-select: none;
 }
 
+#transactions li {
+  font-size: 12px;
+}
+
+#transactions .sortCriteria:hover {
+  cursor: pointer;
+  background-color: #17a2b8;
+  color: #ffffff;
+}
+
 @media only screen and (min-width: 768px) {
   .cover {
     margin-top: 30%;

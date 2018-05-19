@@ -93,7 +93,7 @@
                             <div class="form-group eow">
                                 <label for="sendConfirm">
                                     <i class="fa fa-lock"></i>Confirm password:</label>
-                                <input required type="password" class="form-control" id="sendConfirm" placeholder="Password" name="cofirm">
+                                <input required type="password" class="form-control" id="sendConfirm" placeholder="Password" name="confirm">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -116,22 +116,35 @@
                     </div>
                     <div class="modal-body">
                         <div class="row d-flex">
-                            <li class="list-group-item col-3">From:</li>
-                            <li class="list-group-item col-3">To:</li>
-                            <li class="list-group-item col-3">Value:</li>
-                            <li class="list-group-item col-3">Date:</li>
+                            <li class="list-group-item col-3 sortCriteria">
+                                <i class="fa fa-chevron-down"> From:</i>
+                            </li>
+                            <li class="list-group-item col-3 sortCriteria">
+                                <i class="fa fa-chevron-down"> To:</i>
+                            </li>
+                            <li class="list-group-item col-3 sortCriteria">
+                                <i class="fa fa-chevron-down"> Value:</i>
+                            </li>
+                            <li class="list-group-item col-3 sortCriteria">
+                                <i class="fa fa-chevron-down"> Date:</i>
+                            </li>
                         </div>
+
+                        {{#each this.transactions}}
                         <div class="row d-flex">
-                            {{#each this.transactions}}
-                            <li class="list-group-item col-3 p-1">{{this.fromAccount}}</li>
 
-                            <li class="list-group-item col-3 p-1">{{this.toAccount}}</li>
+                            <li class="list-group-item col-3 p-1 col1 accInfo" data-title="" data-container="body" data-toggle="popover" data-placement="top"
+                                data-content="">{{this.fromAccount}}</li>
 
-                            <li class="list-group-item col-3 p-1">{{this.value}}</li>
+                            <li class="list-group-item col-3 p-1 col2 accInfo" data-title="" data-container="body" data-toggle="popover" data-placement="top"
+                                data-content="">{{this.toAccount}}</li>
 
-                            <li class="list-group-item col-3 p-1 toFormatPrecise">{{this.date}}</li>
-                            {{/each}}
+                            <li class="list-group-item col-3 p-1 col3">{{this.value}}</li>
+
+                            <li class="list-group-item col-3 p-1 col4 toFormatPrecise">{{this.date}}</li>
+
                         </div>
+                        {{/each}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -239,9 +252,10 @@
 </script>
 <script>
     class Request {
-        constructor(method, url) {
+        constructor(method, url, json) {
             this.method = method;
             this.url = url;
+            this.json = json
         }
         send() {
             if (confirm('Are you sure?')) {
@@ -249,6 +263,7 @@
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         location.reload();
+
                     }
                     if (this.readyState == 4 && this.status == 201) {
                         location.reload();
@@ -256,7 +271,7 @@
 
                 };
                 xhr.open(this.method, this.url, true);
-                xhr.send(null);
+                xhr.send(this.json);
             }
         }
     }
@@ -267,9 +282,92 @@
             let id = e.target.parentElement.parentElement.parentElement.parentElement.id;
             if (method == 'delete') {
                 let url = new URL(window.location).origin + '/accounts/' + id;
-                let request = new Request(method, url);
+                let request = new Request(method, url, null, true);
                 request.send();
             }
         })
+    })
+</script>
+<script type="text/javascript">
+    let sorted = false;
+    let sortCritera = document.querySelectorAll('.sortCriteria');
+    sortCritera.forEach(element => {
+        element.addEventListener('click', (event) => {
+            let cc, ci, rows, chevrons;
+            if (event.target.nodeName == 'I') {
+                chevrons = event.target.parentElement.children;
+                cc = Array.prototype.slice.call(event.target.parentElement.parentElement.children);
+                ci = 'c' + cc.indexOf(event.target.parentElement);
+                rows = Array.prototype.slice.call(event.target.parentElement.parentElement.parentElement.children);
+            } else {
+                chevron = event.target.firstElementChild;
+                cc = Array.prototype.slice.call(event.target.parentElement.children);
+                ci = 'c' + cc.indexOf(event.target);
+                rows = Array.prototype.slice.call(event.target.parentElement.parentElement.children);
+            }
+            rows.shift();
+            let map = [];
+            console.log(event.target, cc, rows)
+            rows.forEach((row) => {
+                map.push({
+                    r: {
+                        c0: row.children[0].innerText,
+                        c1: row.children[1].innerText,
+                        c2: parseInt(row.children[2].innerText),
+                        c3: row.children[3].innerText
+                    }
+                })
+            });
+            if (sorted) {
+                map.sort((a, b) => {
+                    return a.r[ci] > b.r[ci]
+                })
+            } else {
+                map.sort((a, b) => {
+                    return a.r[ci] < b.r[ci]
+                })
+            }
+            sorted = !sorted;
+            map.forEach((row, index) => {
+                chevron.className = chevron.className == 'fa fa-chevron-up' ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
+                rows[index].children[0].innerText = row.r.c0
+                rows[index].children[1].innerText = row.r.c1
+                rows[index].children[2].innerText = row.r.c2
+                rows[index].children[3].innerText = row.r.c3
+            })
+
+        })
+    })
+</script>
+<script type="text/javascript">
+    $('[data-toggle="popover"]').popover();
+    let accInfo = document.querySelectorAll('.accInfo');
+    accInfo.forEach(e => {
+        let accNum = e.innerText;
+        let trigger = $(e);
+        e.addEventListener('click', (event) => {
+            console.log(event)
+            let url = new URL(window.location).origin + '/api/accounts/' + accNum
+            let xhr = new XMLHttpRequest();
+            let response;
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(this.responseText);
+                    console.log(response)
+                    event.target.setAttribute('data-content', `
+                        Name: ${response.firstName} ${response.lastName} | 
+                        Address: ${response.address} ${response.city} ${response.country} |
+                        Phone: ${response.phone}
+                    `);
+                    trigger.popover('show');
+                }
+            }
+            xhr.open('get', url, true);
+            xhr.send(null);
+        })
+        e.addEventListener('mouseleave', (event) => {
+            trigger.popover('hide');
+        });
     })
 </script>
