@@ -1,5 +1,5 @@
 <div id="video-wrapper" class="position-absolute">
-    <video class="position-relative" autoplay loop muted poster preload src="./public/video/mainVideo.mp4"></video>
+    <video class="animated" loop muted autoplay poster preload src="./public/video/mainVideo.mp4">
 </div>
 
 <div id="main" class="d-flex w-100 p-3 mx-auto flex-column position-absolute bgdark">
@@ -17,8 +17,25 @@
     let main = document.querySelector('#main');
     let video = document.querySelector('video');
     let videoWrapper = document.querySelector('#video-wrapper');
-    video.setAttribute('width', window.innerWidth);
-    videoWrapper.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
-    main.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
+    document.addEventListener('DOMContentLoaded', () => {
+        videoWrapper.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
+        videoWrapper.style.width = window.innerWidth + 'px';
+
+        main.style.height = window.innerHeight - document.getElementsByTagName('nav')[0].offsetHeight + 'px';
+
+        if (window.innerWidth / window.innerHeight < 1) {
+            video.setAttribute('height', window.innerHeight);
+        } else {
+            video.setAttribute('width', window.innerWidth);
+        }
+
+    })
+    document.addEventListener('touchstart', function playVideo() {
+        video.classList.add('fadeIn');
+        video.pause();
+        video.play();
+        window.removeEventListener('touchstart', playVideo);
+    })
+
 
 </script>

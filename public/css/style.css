@@ -20,6 +20,7 @@ html {
 }
 
 video {
+  transition: all 1000ms !important;
   right: 0;
   bottom: 0;
 }
@@ -32,11 +33,6 @@ video {
 h1.title {
   font-size: 50px;
   font-weight: 400;
-}
-
-hr {
-  width: 10%;
-  color: #fff;
 }
 
 .form-group {
@@ -78,6 +74,12 @@ input::-webkit-input-placeholder {
   user-select: none;
 }
 
+#transactions .accInfo:hover {
+  cursor: pointer;
+  background-color: #17a2b8;
+  color: #ffffff;
+}
+
 #transactions li {
   font-size: 12px;
 }
@@ -90,24 +92,31 @@ input::-webkit-input-placeholder {
 
 @media only screen and (min-width: 768px) {
   .cover {
-    margin-top: 30%;
+    margin-top: 15%;
   }
   .lead:first-of-type {
     width: 50%;
   }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 960px) {
   .cover-heading {
-    margin-top: 5%;
+    margin-top: 0%;
     font-size: 26px;
   }
   .cover {
+    margin-top: 50px;
     width: 100%;
   }
   .lead {
     margin: 10px auto;
     width: 90%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .cover {
+    margin-top: 0px;
   }
 }
 /*# sourceMappingURL=style.css.map */

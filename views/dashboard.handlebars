@@ -67,11 +67,10 @@
                     <div class="modal-body">
                         <form method="post" action="/accounts/send">
                             <div class="form-group row">
-                                <label for="sendId" class="col-sm-2 col-form-label">
+                                <label class="text-center w-100" for="sendId">
                                     <i class="fa fa-bank"></i>Account number:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" readonly class="form-control-plaintext text-center noselect" name="fromAccount" id="sendId" value="{{this.accountNumber}}">
-                                </div>
+                                <input type="text" readonly class="form-control form-control-plaintext text-center noselect" name="fromAccount" id="sendId"
+                                    value="{{this.accountNumber}}">
                             </div>
                             <div class="form-group eow">
                                 <label for="sendToAccount">
@@ -133,11 +132,9 @@
                         {{#each this.transactions}}
                         <div class="row d-flex">
 
-                            <li class="list-group-item col-3 p-1 col1 accInfo" data-title="" data-container="body" data-toggle="popover" data-placement="top"
-                                data-content="">{{this.fromAccount}}</li>
+                            <li class="list-group-item col-3 p-1 col1 accInfo">{{this.fromAccount}}</li>
 
-                            <li class="list-group-item col-3 p-1 col2 accInfo" data-title="" data-container="body" data-toggle="popover" data-placement="top"
-                                data-content="">{{this.toAccount}}</li>
+                            <li class="list-group-item col-3 p-1 col2 accInfo">{{this.toAccount}}</li>
 
                             <li class="list-group-item col-3 p-1 col3">{{this.value}}</li>
 
@@ -218,156 +215,4 @@
     </div>
     {{/if}}
 </div>
-<script type="text/javascript">
-    let created = document.getElementById('created');
-    let birth = document.getElementById('birth');
-    let login = document.getElementById('login');
-
-    let formatDate = (field) => {
-        let date = new Date(field.innerText);
-        let year = date.getFullYear();
-        let month = date.getMonth();
-        let day = date.getDate();
-
-        field.innerText = day + '/' + month + '/' + year;
-    }
-    let formatDatePrecise = (field) => {
-        let date = new Date(field.innerText);
-        let year = date.getFullYear();
-        let month = date.getMonth();
-        let day = date.getDate();
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let seconds = date.getSeconds();
-
-        field.innerText = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
-    }
-    document.querySelectorAll('.toFormat').forEach(field => {
-        formatDate(field);
-    })
-    document.querySelectorAll('.toFormatPrecise').forEach(field => {
-        formatDatePrecise(field);
-    })
-    document.querySelectorAll('.nav-item')[0].classList.add('active');
-</script>
-<script>
-    class Request {
-        constructor(method, url, json) {
-            this.method = method;
-            this.url = url;
-            this.json = json
-        }
-        send() {
-            if (confirm('Are you sure?')) {
-                let xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        location.reload();
-
-                    }
-                    if (this.readyState == 4 && this.status == 201) {
-                        location.reload();
-                    }
-
-                };
-                xhr.open(this.method, this.url, true);
-                xhr.send(this.json);
-            }
-        }
-    }
-    let btns = document.querySelectorAll('[data-btn-type="request"]');
-    btns.forEach(btn => {
-        btn.addEventListener('click', e => {
-            let method = e.target.attributes['data-method'].value;
-            let id = e.target.parentElement.parentElement.parentElement.parentElement.id;
-            if (method == 'delete') {
-                let url = new URL(window.location).origin + '/accounts/' + id;
-                let request = new Request(method, url, null, true);
-                request.send();
-            }
-        })
-    })
-</script>
-<script type="text/javascript">
-    let sorted = false;
-    let sortCritera = document.querySelectorAll('.sortCriteria');
-    sortCritera.forEach(element => {
-        element.addEventListener('click', (event) => {
-            let cc, ci, rows, chevrons;
-            if (event.target.nodeName == 'I') {
-                chevrons = event.target.parentElement.children;
-                cc = Array.prototype.slice.call(event.target.parentElement.parentElement.children);
-                ci = 'c' + cc.indexOf(event.target.parentElement);
-                rows = Array.prototype.slice.call(event.target.parentElement.parentElement.parentElement.children);
-            } else {
-                chevron = event.target.firstElementChild;
-                cc = Array.prototype.slice.call(event.target.parentElement.children);
-                ci = 'c' + cc.indexOf(event.target);
-                rows = Array.prototype.slice.call(event.target.parentElement.parentElement.children);
-            }
-            rows.shift();
-            let map = [];
-            console.log(event.target, cc, rows)
-            rows.forEach((row) => {
-                map.push({
-                    r: {
-                        c0: row.children[0].innerText,
-                        c1: row.children[1].innerText,
-                        c2: parseInt(row.children[2].innerText),
-                        c3: row.children[3].innerText
-                    }
-                })
-            });
-            if (sorted) {
-                map.sort((a, b) => {
-                    return a.r[ci] > b.r[ci]
-                })
-            } else {
-                map.sort((a, b) => {
-                    return a.r[ci] < b.r[ci]
-                })
-            }
-            sorted = !sorted;
-            map.forEach((row, index) => {
-                chevron.className = chevron.className == 'fa fa-chevron-up' ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
-                rows[index].children[0].innerText = row.r.c0
-                rows[index].children[1].innerText = row.r.c1
-                rows[index].children[2].innerText = row.r.c2
-                rows[index].children[3].innerText = row.r.c3
-            })
-
-        })
-    })
-</script>
-<script type="text/javascript">
-    $('[data-toggle="popover"]').popover();
-    let accInfo = document.querySelectorAll('.accInfo');
-    accInfo.forEach(e => {
-        let accNum = e.innerText;
-        let trigger = $(e);
-        e.addEventListener('click', (event) => {
-            console.log(event)
-            let url = new URL(window.location).origin + '/api/accounts/' + accNum
-            let xhr = new XMLHttpRequest();
-            let response;
-
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    response = JSON.parse(this.responseText);
-                    console.log(response)
-                    event.target.setAttribute('data-content', `
-                        Name: ${response.firstName} ${response.lastName} | 
-                        Address: ${response.address} ${response.city} ${response.country} |
-                        Phone: ${response.phone}
-                    `);
-                    trigger.popover('show');
-                }
-            }
-            xhr.open('get', url, true);
-            xhr.send(null);
-        })
-        e.addEventListener('mouseleave', (event) => {
-            trigger.popover('hide');
-        });
-    })
-</script>
+<script src="/js/dashboard.js"></script>
