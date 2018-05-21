@@ -1,12 +1,12 @@
 class FormatDate extends Date {
     constructor(dateString){
         super(dateString);
-
+        this.months =['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     }
     short(){
-        return `${this.getDate()}-${this.getMonth()}-${this.getFullYear()}`;
+        return `${this.getDate() < 10 ? '0' + this.getDate():this.getDate()}-${this.months[this.getMonth()]}-${this.getFullYear()}`;
     }
     long(){
-        return `${this.getDate()}-${this.getMonth()}-${this.getFullYear()} ${this.getHours() < 10 ? '0' + this.getHours():this.getHours()}:${this.getMinutes()}`;
+        return `${this.getDate() < 10 ? '0' + this.getDate():this.getDate()}-${this.months[this.getMonth()]}-${this.getFullYear()} ${this.getHours() < 10 ? '0' + this.getHours():this.getHours()}:${this.getMinutes()}`;
     }
 }

@@ -174,7 +174,7 @@ router.post('/send', (req, res) => {
 							})
 							.catch(err => console.log(err));
 						if (res.locals.user != null) {
-							Accounts.find({ owner: res.locals.user._id })
+							Accounts.findOne({ owner: res.locals.user._id })
 								.exec()
 								.then(result => {
 									req.flash(
