@@ -1,67 +1,13 @@
-let created = document.getElementById('created');
-let birth = document.getElementById('birth');
-let login = document.getElementById('login');
-
-let formatDate = field => {
-	let date = new Date(field.innerText);
-	let year = date.getFullYear();
-	let month = date.getMonth();
-	let day = date.getDate();
-
-	field.innerText = day + '/' + month + '/' + year;
-};
-let formatDatePrecise = field => {
-	let date = new Date(field.innerText);
-	let year = date.getFullYear();
-	let month = date.getMonth();
-	let day = date.getDate();
-	let hours = date.getHours();
-	if (hours < 10) hours = '0' + hours;
-	let minutes = date.getMinutes();
-	let seconds = date.getSeconds();
-
-	field.innerText =
-		day +
-		'/' +
-		month +
-		'/' +
-		year +
-		' ' +
-		hours +
-		':' +
-		minutes +
-		':' +
-		seconds;
-};
 document.querySelectorAll('.toFormat').forEach(field => {
-	formatDate(field);
+	field.innerText = new FormatDate(field.innerText).short();
 });
 document.querySelectorAll('.toFormatPrecise').forEach(field => {
-	formatDatePrecise(field);
+	field.innerText = new FormatDate(field.innerText).long();
 });
 document.querySelectorAll('.nav-item')[0].classList.add('active');
-class Request {
-	constructor(method, url, json = null) {
-		this.method = method;
-		this.url = url;
-		this.json = json;
-	}
-	send() {
-		if (confirm('Are you sure?')) {
-			let xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					location.reload();
-				}
-				if (this.readyState == 4 && this.status == 201) {
-					location.reload();
-				}
-			};
-			xhr.open(this.method, this.url, true);
-			xhr.send(this.json);
-		}
-	}
-}
+
+
+
 let btns = document.querySelectorAll('[data-btn-type="request"]');
 btns.forEach(btn => {
 	btn.addEventListener('click', e => {
@@ -71,7 +17,11 @@ btns.forEach(btn => {
 		if (method == 'delete') {
 			let url = new URL(window.location).origin + '/accounts/' + id;
 			let request = new Request(method, url, null, true);
-			request.send();
+			request.send().then(result => {
+				if (result.status == 200){
+					location.reload();
+				}
+			}).catch(err => console.log(err))
 		}
 	});
 });
@@ -122,9 +72,9 @@ sortCritera.forEach(element => {
 		}
 		sorted = !sorted;
 		chevron.className =
-			chevron.className == 'fa fa-chevron-up'
-				? 'fa fa-chevron-down'
-				: 'fa fa-chevron-up';
+			chevron.className == 'fa fa-chevron-up' ?
+			'fa fa-chevron-down' :
+			'fa fa-chevron-up';
 		map.forEach((row, index) => {
 			rows[index].children[0].innerText = row.r.c0;
 			rows[index].children[1].innerText = row.r.c1;
@@ -135,61 +85,14 @@ sortCritera.forEach(element => {
 });
 let accInfo = document.querySelectorAll('.accInfo');
 accInfo.forEach(e => {
-	let accNum = e.innerText;
 	e.addEventListener('click', event => {
-		let url = new URL(window.location).origin + '/api/accounts/' + accNum;
-		let xhr = new XMLHttpRequest();
-		let response;
-
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				response = JSON.parse(this.responseText);
-				let content = `Address: ${response.address} ${response.city}, ${
-					response.country
-				}<br>
-                        Phone: ${response.phone}`;
-				let title = `Name: ${response.firstName} ${response.lastName}`;
-				let popup = new Popup(content, title, event.target).render();
-			}
-		};
-		xhr.open('get', url, true);
-		xhr.send(null);
+		let url = new URL(window.location).origin + '/api/accounts/' + e.innerText;
+		let request = new Request('get', url, null, true);
+		request.send().then(r => {
+			let result = JSON.parse(r.response);
+			let content = `Address: ${result.address} ${result.city}, ${result.country}<br>Phone: ${result.phone}`;
+			let title = `Name: ${result.firstName} ${result.lastName}`;
+			let popup = new Popup(content,title,event.target).render()
+		}).catch(err => console.log(err))
 	});
 });
-class Popup {
-	constructor(content, title, parent) {
-		this.parent = parent;
-		this.content = content;
-		this.title = title;
-		this.popup;
-		this.y = parent.offsetTop;
-		this.x = parent.offsetLeft;
-	}
-	hide() {
-		return this.parent.parentElement.removeChild(this.popup);
-	}
-	render() {
-		//fix the height glitch
-		this.parent.parentElement.style.height =
-			this.parent.parentElement.offsetHeight + 'px';
-		this.popup = document.createElement('div');
-		this.popup.setAttribute('class', 'popover');
-
-		let body = document.createElement('div');
-		body.innerHTML = this.content;
-		body.setAttribute('class', 'popover-body');
-
-		let header = document.createElement('div');
-		header.innerHTML = this.title;
-		header.setAttribute('class', 'popover-header');
-
-		this.popup.appendChild(header);
-		this.popup.appendChild(body);
-		this.popup.style.top = this.y + this.parent.offsetHeight + 'px';
-		this.popup.style.left = this.x + 'px';
-		setTimeout(() => {
-			this.hide();
-		}, 3000);
-		return this.parent.parentElement.appendChild(this.popup);
-	}
-}

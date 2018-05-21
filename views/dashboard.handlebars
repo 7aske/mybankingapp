@@ -67,32 +67,32 @@
                     <div class="modal-body">
                         <form method="post" action="/accounts/send">
                             <div class="form-group row">
-                                <label class="text-center w-100" for="sendId">
+                                <label class="text-center w-100" for="sendId{{@index}}">
                                     <i class="fa fa-bank"></i>Account number:</label>
-                                <input type="text" readonly class="form-control form-control-plaintext text-center noselect" name="fromAccount" id="sendId"
+                                <input type="text" readonly class="form-control form-control-plaintext text-center noselect" name="fromAccount" id="sendId{{@index}}"
                                     value="{{this.accountNumber}}">
                             </div>
                             <div class="form-group eow">
-                                <label for="sendToAccount">
+                                <label for="sendToAccount{{@index}}">
                                     <i class="fa fa-bank"></i>Recipient account number:</label>
-                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendToAccount"
+                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendToAccount{{@index}}"
                                     placeholder="Account number" name="toAccount">
                             </div>
                             <div class="form-group eow">
-                                <label for="sendValue">
+                                <label for="sendValue{{@index}}">
                                     <i class="fa fa-money"></i> Amount:</label>
-                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendValue"
+                                <input required style="-webkit-appearance: none;-moz-appearance:textfield;" type="number" class="form-control" id="sendValue{{@index}}"
                                     placeholder="Value" name="value">
                             </div>
                             <div class="form-group eow">
-                                <label for="sendPassword">
+                                <label for="sendPassword{{@index}}">
                                     <i class="fa fa-lock"></i>Password:</label>
-                                <input required type="password" class="form-control" id="sendPassword" placeholder="Password" name="password">
+                                <input required type="password" class="form-control" id="sendPassword{{@index}}" placeholder="Password" name="password">
                             </div>
                             <div class="form-group eow">
-                                <label for="sendConfirm">
+                                <label for="sendConfirm{{@index}}">
                                     <i class="fa fa-lock"></i>Confirm password:</label>
-                                <input required type="password" class="form-control" id="sendConfirm" placeholder="Password" name="confirm">
+                                <input required type="password" class="form-control" id="sendConfirm{{@index}}" placeholder="Password" name="confirm">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -215,4 +215,7 @@
     </div>
     {{/if}}
 </div>
+<script src="/js/request.js"></script>
+<script src="/js/date.js"></script>
+<script src="/js/popup.js"></script>
 <script src="/js/dashboard.js"></script>
