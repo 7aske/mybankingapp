@@ -19,6 +19,7 @@ router.get('/accounts/:accNo', (req, res) => {
 		Accounts.findOne({ accountNumber: req.params.accNo })
 			.exec()
 			.then(result => {
+				let balance = result.balance
 				Users.findOne({ _id: result.owner })
 					.exec()
 					.then(result => {
@@ -30,7 +31,8 @@ router.get('/accounts/:accNo', (req, res) => {
 							address: result.address,
 							city: result.city,
 							country: result.country,
-							phone: result.phone
+							phone: result.phone,
+							balance: balance
 						});
 					})
 					.catch(err => console.log(err));

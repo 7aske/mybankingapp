@@ -1,3 +1,4 @@
+
 document.querySelectorAll('.nav-item')[0].classList.add('active');
 document.querySelectorAll('.toFormat').forEach(field => {
 	field.innerText = new FormatDate(field.innerText).short();
