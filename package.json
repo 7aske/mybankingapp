@@ -7,12 +7,7 @@
 		"start": "node app.js",
 		"dev": "nodemon app.js"
 	},
-	"keywords": [
-		"Bank",
-		"App",
-		"Database",
-		"Banking"
-	],
+	"keywords": ["Bank", "App", "Database", "Banking"],
 	"author": "Nikola Tasic",
 	"license": "ISC",
 	"dependencies": {
