@@ -16,6 +16,7 @@ router.get('/register', (req, res) => {
 });
 router.get('/dashboard', (req, res) => {
 	if (res.locals.user != null) {
+		console.log('RES: ' + res.locals.user._id, 'REQ: ' + req.user._id);
 		console.log(res.locals.user.accounts);
 		Accounts.find({ owner: res.locals.user._id })
 			.exec()
@@ -28,7 +29,7 @@ router.get('/dashboard', (req, res) => {
 			.catch(err => console.log(err));
 	} else {
 		req.flash('error_msg', 'Unauthorized. Please log in.');
-		res.redirect('/');
+		res.redirect('/users/login');
 	}
 });
 
@@ -157,6 +158,7 @@ router.post(
 		successFlash: true
 	}),
 	(req, res) => {
+		console.log(res.locals.user, req.user);
 		res.redirect('/');
 	}
 );

@@ -1,4 +1,3 @@
-
 document.querySelectorAll('.nav-item')[0].classList.add('active');
 document.querySelectorAll('.toFormat').forEach(field => {
 	field.innerText = new FormatDate(field.innerText).short();
@@ -9,31 +8,41 @@ document.querySelectorAll('.toFormatPrecise').forEach(field => {
 let accInfo = document.querySelectorAll('.accInfo');
 accInfo.forEach(e => {
 	e.addEventListener('click', event => {
-		let url = new URL(window.location).origin + '/api/accounts/' + e.innerText;
+		let url =
+			new URL(window.location).origin + '/api/accounts/' + e.innerText;
 		let request = new Request('get', url, null, true);
-		request.send().then(r => {
-			let result = JSON.parse(r.response);
-			let content = `Address: ${result.address} ${result.city}, ${result.country}<br>Phone: ${result.phone}`;
-			let title = `Name: ${result.firstName} ${result.lastName}`;
-			let popup = new Popup(content, title, event.target).render()
-		}).catch(err => console.log(err))
+		request
+			.send()
+			.then(r => {
+				let result = JSON.parse(r.response);
+				let content = `Address: ${result.address} ${result.city}, ${
+					result.country
+				}<br>Phone: ${result.phone}`;
+				let title = `Name: ${result.firstName} ${result.lastName}`;
+				let popup = new Popup(content, title, event.target).render();
+			})
+			.catch(err => console.log(err));
 	});
 });
 let btns = document.querySelectorAll('[data-btn-type="request"]');
 btns.forEach(btn => {
 	btn.addEventListener('click', e => {
-		if (confirm('Are you sure?')){
-		let method = e.target.attributes['data-method'].value;
-		let id =
-			e.target.parentElement.parentElement.parentElement.parentElement.id;
-		let url = new URL(window.location).origin + '/accounts/' + id;
-		let request = new Request(method, url, null, true);
-		request.send().then(result => {
-			if (result.status == 200) {
-				location.reload();
-			}
-		}).catch(err => console.log(err))
-	}
+		if (confirm('Are you sure?')) {
+			let method = e.target.attributes['data-method'].value;
+			let id =
+				e.target.parentElement.parentElement.parentElement.parentElement
+					.id;
+			let url = new URL(window.location).origin + '/accounts/' + id;
+			let request = new Request(method, url, null, true);
+			request
+				.send()
+				.then(result => {
+					if (result.status == 200) {
+						location.reload();
+					}
+				})
+				.catch(err => console.log(err));
+		}
 	});
 });
 let sorted = false;
@@ -83,9 +92,9 @@ sortCritera.forEach(element => {
 		}
 		sorted = !sorted;
 		chevron.className =
-			chevron.className == 'fa fa-chevron-up' ?
-			'fa fa-chevron-down' :
-			'fa fa-chevron-up';
+			chevron.className == 'fa fa-chevron-up'
+				? 'fa fa-chevron-down'
+				: 'fa fa-chevron-up';
 		map.forEach((row, index) => {
 			rows[index].children[0].innerText = row.r.c0;
 			rows[index].children[1].innerText = row.r.c1;

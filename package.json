@@ -30,6 +30,7 @@
 		"passport": "^0.4.0",
 		"passport-http": "^0.3.0",
 		"passport-local": "^1.0.0",
+		"pdfmake": "^0.1.36",
 		"request": "^2.86.0"
 	},
 	"devDependencies": {
