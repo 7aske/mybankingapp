@@ -6,24 +6,41 @@ buttons.forEach(button => {
 			'#transactions' + id + ' .transaction'
 		);
 		let content = [
-			'Transactions:',
+			{
+				text: 'Transactions:',
+				style: {
+					alignment: 'center'
+				}
+			},
 			{
 				columns: [
 					{
 						width: '25%',
-						text: 'Sender account number:'
+						text: 'Sender account number:',
+						style: {
+							alignment: 'center'
+						}
 					},
 					{
 						width: '25%',
-						text: 'Receiver account number:'
+						text: 'Receiver account number:',
+						style: {
+							alignment: 'center'
+						}
 					},
 					{
 						width: '25%',
-						text: 'Sent funds:'
+						text: 'Sent funds:',
+						style: {
+							alignment: 'center'
+						}
 					},
 					{
 						width: '25%',
-						text: 'Transaction date'
+						text: 'Transaction date',
+						style: {
+							alignment: 'center'
+						}
 					}
 				]
 			}
@@ -41,7 +58,10 @@ buttons.forEach(button => {
 					},
 					{
 						width: '25%',
-						text: row.children[2].innerText
+						text: row.children[2].innerText,
+						style: {
+							alignment: 'right'
+						}
 					},
 					{
 						width: '25%',
