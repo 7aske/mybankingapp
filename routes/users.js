@@ -15,12 +15,12 @@ router.get('/register', (req, res) => {
 	res.render('register', { title: 'Register' });
 });
 router.get('/dashboard', (req, res) => {
-	if (res.locals.user != null) {
-		console.log('RES: ' + res.locals.user._id, 'REQ: ' + req.user._id);
-		console.log(res.locals.user.accounts);
-		Accounts.find({ owner: res.locals.user._id })
+	if (req.user) {
+		console.log(req.user.accounts);
+		Accounts.find({ owner: req.user._id })
 			.exec()
 			.then(result => {
+				console.log(result);
 				res.render('dashboard', {
 					title: 'Dashboard',
 					accounts: result
@@ -101,7 +101,7 @@ router.post('/register', (req, res) => {
 						'success_msg',
 						'Registration successful. You can now log in.'
 					);
-					res.redirect('login');
+					res.redirect('/login');
 				} else {
 					req.flash('error_msg', 'User already exists.');
 					res.render('register', {

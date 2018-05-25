@@ -68,7 +68,14 @@ input::-webkit-input-placeholder {
 	-ms-user-select: none;
 	user-select: none;
 }
-#transactions {
+.accountsHover {
+	&:hover {
+		cursor: pointer;
+		color: #17a2b8;
+		background-color: wheat;
+	}
+}
+.transactions {
 	.accInfo {
 		&:hover {
 			cursor: pointer;

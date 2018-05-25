@@ -4,8 +4,9 @@ balance.forEach(e => {
 	let accountNumber = e.value;
 	let url =
 		new URL(window.location).origin +
-		'/api/accounts/balance/' +
-		accountNumber;
+		'/api/accounts/' +
+		accountNumber +
+		'/balance';
 	let newBalance = 0;
 	let checkBalance = 0;
 	console.log(accountNumber, url);
@@ -16,6 +17,7 @@ balance.forEach(e => {
 			request
 				.send()
 				.then(result => {
+					console.log(result);
 					checkBalance = JSON.parse(result.response).balance;
 				})
 				.catch(err => console.log(err));
@@ -31,10 +33,13 @@ balance.forEach(e => {
 					} else {
 						console.log('Funds recieved');
 						checkBalance = newBalance;
-						window.location =
+						let url =
 							window.location.origin +
-							'/api/accounts/balance/update/' +
-							response.accountNumber;
+							'/api/accounts/' +
+							response.accountNumber +
+							'/balance/update/';
+						let request = new Request('post', url, null);
+						request.send();
 					}
 				})
 				.catch(err => console.log(err));

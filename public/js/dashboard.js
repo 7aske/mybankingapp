@@ -9,7 +9,10 @@ let accInfo = document.querySelectorAll('.accInfo');
 accInfo.forEach(e => {
 	e.addEventListener('click', event => {
 		let url =
-			new URL(window.location).origin + '/api/accounts/' + e.innerText;
+			new URL(window.location).origin +
+			'/api/accounts/' +
+			e.innerText +
+			'/owner';
 		let request = new Request('get', url, null, true);
 		request
 			.send()
@@ -45,11 +48,17 @@ btns.forEach(btn => {
 		}
 	});
 });
-let sorted = false;
+let sorted = {
+	c0: false,
+	c1: false,
+	c2: false,
+	c3: false
+};
 let sortCritera = document.querySelectorAll('.sortCriteria');
 sortCritera.forEach(element => {
 	element.addEventListener('click', event => {
 		let cc, ci, rows, chevron;
+		let chevrons = document.querySelectorAll('[data-sort="chevron"]');
 		if (event.target.nodeName == 'I') {
 			chevron = event.target;
 			cc = Array.prototype.slice.call(
@@ -69,6 +78,7 @@ sortCritera.forEach(element => {
 				event.target.parentElement.parentElement.children
 			);
 		}
+
 		rows.shift();
 		let map = [];
 		rows.forEach(row => {
@@ -81,20 +91,42 @@ sortCritera.forEach(element => {
 				}
 			});
 		});
-		if (sorted) {
-			map.sort((a, b) => {
-				return a.r[ci] > b.r[ci];
-			});
-		} else {
-			map.sort((a, b) => {
-				return a.r[ci] < b.r[ci];
-			});
+		//console.log(ci);
+		//console.log(cc);
+		//console.table(map);
+		chevrons.forEach(c => {
+			c.className = '';
+			c.parentElement.style.color = '#000000';
+			c.parentElement.style.backgroundColor = '#ffffff';
+		});
+		function compare(a, b) {
+			chevron.className = 'fa fa-chevron-up';
+			chevron.parentElement.style.backgroundColor = '#17a2b8';
+			chevron.parentElement.style.color = '#ffffff';
+			if (a.r[ci] > b.r[ci]) return -1;
+			if (a.r[ci] < b.r[ci]) return 1;
+			return 0;
 		}
-		sorted = !sorted;
-		chevron.className =
-			chevron.className == 'fa fa-chevron-up'
-				? 'fa fa-chevron-down'
-				: 'fa fa-chevron-up';
+		function compareReverse(a, b) {
+			chevron.className = 'fa fa-chevron-down';
+			chevron.parentElement.style.backgroundColor = '#17a2b8';
+			chevron.parentElement.style.color = '#ffffff';
+			if (a.r[ci] > b.r[ci]) return 1;
+			if (a.r[ci] < b.r[ci]) return -1;
+			return 0;
+		}
+		if (sorted[ci]) {
+			map.sort(compare);
+			//console.table(map);
+		} else {
+			map.sort(compareReverse);
+			//console.table(map);
+		}
+		for (let key in sorted) {
+			if (key != ci) sorted[key] = false;
+		}
+		sorted[ci] = !sorted[ci];
+
 		map.forEach((row, index) => {
 			rows[index].children[0].innerText = row.r.c0;
 			rows[index].children[1].innerText = row.r.c1;

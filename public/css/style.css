@@ -74,17 +74,23 @@ input::-webkit-input-placeholder {
   user-select: none;
 }
 
-#transactions .accInfo:hover {
+.accountsHover:hover {
+  cursor: pointer;
+  color: #17a2b8;
+  background-color: wheat;
+}
+
+.transactions .accInfo:hover {
   cursor: pointer;
   background-color: #17a2b8;
   color: #ffffff;
 }
 
-#transactions li {
+.transactions li {
   font-size: 12px;
 }
 
-#transactions .sortCriteria:hover {
+.transactions .sortCriteria:hover {
   cursor: pointer;
   background-color: #17a2b8;
   color: #ffffff;

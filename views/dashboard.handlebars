@@ -104,7 +104,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="transactions" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade transactions" id="transactions{{this._id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -116,21 +116,21 @@
                     <div class="modal-body">
                         <div class="row d-flex">
                             <li class="list-group-item col-3 sortCriteria">
-                                <i class="fa fa-chevron-down"> From:</i>
+                                <i data-sort="chevron" class=""> From:</i>
                             </li>
                             <li class="list-group-item col-3 sortCriteria">
-                                <i class="fa fa-chevron-down"> To:</i>
+                                <i data-sort="chevron" class=""> To:</i>
                             </li>
                             <li class="list-group-item col-3 sortCriteria">
-                                <i class="fa fa-chevron-down"> Value:</i>
+                                <i data-sort="chevron" class=""> Value:</i>
                             </li>
                             <li class="list-group-item col-3 sortCriteria">
-                                <i class="fa fa-chevron-down"> Date:</i>
+                                <i data-sort="chevron" class=""> Date:</i>
                             </li>
                         </div>
 
                         {{#each this.transactions}}
-                        <div class="row d-flex">
+                        <div class="row d-flex transaction">
 
                             <li class="list-group-item col-3 p-1 col1 accInfo">{{this.fromAccount}}</li>
 
@@ -144,23 +144,29 @@
                         {{/each}}
                     </div>
                     <div class="modal-footer">
+                        <button type="button" data-transaction="{{this._id}}" class="btn btn-primary btn-pdf">Print PDF
+                            <i class="fa fa-file-pdf-o"></i>
+                        </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12">
-            <div class="card card-header bg-info text-light noselect" data-toggle="collapse" data-target="#{{this._id}}" aria-expanded="false"
+            <div class="card card-header bg-info text-light noselect p-0" data-toggle="collapse" data-target="#{{this._id}}" aria-expanded="false"
                 aria-controls="{{this._id}}">
-                Account {{@index}}
+                <h4 class="accountsHover w-100 h-100 p-3 m-0">
+                    Account {{@index}}
+                    <i class="fa fa-list"></i>
+                </h4>
             </div>
             <div class="collapse p-0" id="{{this._id}}">
                 <div class="card card-body">
                     <ul class="list-group">
                         <li class="list-group-item">Account number: {{this.accountNumber}}</li>
                         <li class="list-group-item">Balance: {{this.balance}}</li>
-                        <li class="list-group-item" data-toggle="modal" data-target="#transactions">
-                            <button data-toggle="modal" data-target="#transactions" class="btn btn-info">
+                        <li class="list-group-item">
+                            <button data-toggle="modal" data-target="#transactions{{this._id}}" class="btn btn-info">
                                 View transactions
                                 <i class="fa fa-list"></i>
                             </button>
@@ -187,8 +193,8 @@
     <div class="row">
         <div class="container">
             <ul class="list-group">
-                <div class="card card-header bg-info text-light noselect">
-                    User information
+                <div class="card card-header bg-info text-light noselect" id="userInformation">
+                    <h4 class="p-4 m-0">User information</h4>
                 </div>
                 <div class="list-group-item">
                     <label for="created">Date created:</label>
@@ -220,3 +226,6 @@
 <script src="/js/popup.js"></script>
 <script src="/js/balance.js"></script>
 <script src="/js/dashboard.js"></script>
+<script src="/js/pdfmake.js"></script>
+<script src="/js/vfs_fonts.js"></script>
+<script src="/js/pdf.js"></script>

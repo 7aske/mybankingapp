@@ -7,75 +7,86 @@ const Transactions = require('../models/transaction');
 const mongoose = require('mongoose');
 
 router.post('/', (req, res) => {
-	console.log(req.body.id);
-	let owner = new mongoose.Types.ObjectId(req.body.id);
-	console.log(owner);
-	let balance = req.body.balance;
-	//let payments = req.body.payments;
-	//let deposits = req.body.deposits;
-	let password = req.body.password;
-	let confirm = req.body.confirm;
-	let accountNumber = req.body.accountNumber;
-	let dateCreated = new Date();
+	if (req.user == res.locals.user) {
+		console.log(req.body.id);
+		let owner = new mongoose.Types.ObjectId(req.body.id);
+		console.log(owner);
+		let balance = req.body.balance;
+		//let payments = req.body.payments;
+		//let deposits = req.body.deposits;
+		let password = req.body.password;
+		let confirm = req.body.confirm;
+		let accountNumber = req.body.accountNumber;
+		let dateCreated = new Date();
 
-	req.checkBody('accountNumber', 'Invalid account number').isNumeric();
-	req.checkBody('balance', 'Invalid balance').isNumeric();
-	req.checkBody('password', 'Password is empty').notEmpty();
-	req.checkBody('confirm', 'Confirm password is empty').notEmpty();
-	req
-		.checkBody('password', 'Passwords do not match')
-		.equals(req.body.confirm);
-	let errors = req.validationErrors();
-	if (errors) {
-		req.flash('error_msg', 'Invalid password');
-		res.redirect('/users/dashboard');
+		req.checkBody('accountNumber', 'Invalid account number').isNumeric();
+		req.checkBody('balance', 'Invalid balance').isNumeric();
+		req.checkBody('password', 'Password is empty').notEmpty();
+		req.checkBody('confirm', 'Confirm password is empty').notEmpty();
+		req
+			.checkBody('password', 'Passwords do not match')
+			.equals(req.body.confirm);
+		let errors = req.validationErrors();
+		if (errors) {
+			req.flash('error_msg', 'Invalid password');
+			res.redirect('/users/dashboard');
+		} else {
+			Users.findOne({ _id: owner })
+				.exec()
+				.then(result => {
+					if (Users.comparePassword(password, result.password)) {
+						Accounts.find({ accountNumber: accountNumber })
+							.exec()
+							.then(result => {
+								if (result.length === 0) {
+									let accountId = new mongoose.Types.ObjectId();
+									let newAccount = new Accounts({
+										_id: accountId,
+										owner: owner,
+										balance: balance,
+										accountNumber: accountNumber,
+										dateCreated: dateCreated
+									});
+									newAccount
+										.save()
+										.then(result => {
+											Users.findOneAndUpdate(
+												{ _id: owner },
+												{
+													$push: {
+														accounts: accountId
+													}
+												}
+											)
+												.then(result =>
+													console.log(result)
+												)
+												.catch(err => console.log(err));
+											req.flash(
+												'success_msg',
+												'Account successfully updated'
+											);
+											res.redirect('/users/dashboard');
+										})
+										.catch(err => console.log(err));
+								} else {
+									req.flash(
+										'error_msg',
+										'Account number already exists in the database'
+									);
+									res.redirect('/users/dashboard');
+								}
+							})
+							.catch(err => console.log(err));
+					} else {
+						res.sendStatus(500);
+					}
+				})
+				.catch(err => console.log(err));
+		}
 	} else {
-		Users.findOne({ _id: owner })
-			.exec()
-			.then(result => {
-				if (Users.comparePassword(password, result.password)) {
-					Accounts.find({ accountNumber: accountNumber })
-						.exec()
-						.then(result => {
-							if (result.length === 0) {
-								let accountId = new mongoose.Types.ObjectId();
-								let newAccount = new Accounts({
-									_id: accountId,
-									owner: owner,
-									balance: balance,
-									accountNumber: accountNumber,
-									dateCreated: dateCreated
-								});
-								newAccount
-									.save()
-									.then(result => {
-										Users.findOneAndUpdate(
-											{ _id: owner },
-											{ $push: { accounts: accountId } }
-										)
-											.then(result => console.log(result))
-											.catch(err => console.log(err));
-										req.flash(
-											'success_msg',
-											'Account successfully updated'
-										);
-										res.redirect('/users/dashboard');
-									})
-									.catch(err => console.log(err));
-							} else {
-								req.flash(
-									'error_msg',
-									'Account number already exists in the database'
-								);
-								res.redirect('/users/dashboard');
-							}
-						})
-						.catch(err => console.log(err));
-				} else {
-					res.sendStatus(500);
-				}
-			})
-			.catch(err => console.log(err));
+		req.flash('error_msg', 'Unauthorized. Please log in.');
+		res.redirect('/login');
 	}
 });
 router.delete('/:accountId', (req, res) => {
@@ -113,7 +124,8 @@ router.delete('/:accountId', (req, res) => {
 			})
 			.catch(err => console.log(err));
 	} else {
-		res.sendStatus(401);
+		req.flash('error_msg', 'Unauthorized. Please log in.');
+		res.redirect('/login');
 	}
 });
 router.post('/send', (req, res) => {
