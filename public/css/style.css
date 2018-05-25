@@ -30,9 +30,18 @@ video {
   padding: 5px;
 }
 
-h1.title {
+.title {
   font-size: 50px;
   font-weight: 400;
+  font-family: 'Passion One', cursive;
+  letter-spacing: 0.5rem;
+}
+
+.logo {
+  font-size: 200px;
+  color: white;
+  padding-top: 50px;
+  padding-bottom: 25px;
 }
 
 .form-group {
@@ -94,6 +103,22 @@ input::-webkit-input-placeholder {
   cursor: pointer;
   background-color: #17a2b8;
   color: #ffffff;
+}
+
+.aboutTitle {
+  color: #ffffff;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.aboutText {
+  text-align: center;
+  color: #ffffff;
+}
+
+.aboutText p {
+  text-align: left;
 }
 
 @media only screen and (min-width: 768px) {

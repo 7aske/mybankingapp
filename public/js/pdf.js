@@ -18,6 +18,7 @@ buttons.forEach(button => {
 						width: '25%',
 						text: 'Sender account number:',
 						style: {
+							fontSize: '20px',
 							alignment: 'center'
 						}
 					},
@@ -25,6 +26,7 @@ buttons.forEach(button => {
 						width: '25%',
 						text: 'Receiver account number:',
 						style: {
+							fontSize: '20px',
 							alignment: 'center'
 						}
 					},
@@ -32,6 +34,7 @@ buttons.forEach(button => {
 						width: '25%',
 						text: 'Sent funds:',
 						style: {
+							fontSize: '20px',
 							alignment: 'center'
 						}
 					},
@@ -39,6 +42,7 @@ buttons.forEach(button => {
 						width: '25%',
 						text: 'Transaction date',
 						style: {
+							fontSize: '20px',
 							alignment: 'center'
 						}
 					}
@@ -75,7 +79,7 @@ buttons.forEach(button => {
 		let docDef = {
 			content: content,
 			pageSize: 'A4',
-			pageOrientation: 'landscape'
+			pageOrientation: 'portrait'
 		};
 		pdfMake.createPdf(docDef).download(id + '.pdf');
 	});
