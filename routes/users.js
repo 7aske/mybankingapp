@@ -101,7 +101,7 @@ router.post('/register', (req, res) => {
 						'success_msg',
 						'Registration successful. You can now log in.'
 					);
-					res.redirect('/login');
+					res.redirect('/users/login');
 				} else {
 					req.flash('error_msg', 'User already exists.');
 					res.render('register', {
