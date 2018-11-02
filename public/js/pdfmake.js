@@ -194,9 +194,9 @@ var base64 = __webpack_require__(124);
 var ieee754 = __webpack_require__(125);
 var isArray = __webpack_require__(76);
 
-exports.Buffer = Buffer
-exports.SlowBuffer = SlowBuffer
-exports.INSPECT_MAX_BYTES = 50
+exports.Buffer = Buffer;
+exports.SlowBuffer = SlowBuffer;
+exports.INSPECT_MAX_BYTES = 50;
 
 /**
  * If `Buffer.TYPED_ARRAY_SUPPORT`:
